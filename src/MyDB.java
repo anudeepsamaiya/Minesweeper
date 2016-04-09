@@ -1,3 +1,4 @@
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,20 +8,23 @@ import java.sql.Statement;
 public class MyDB {
 	
 	Connection con = null;
+	String url = "jdbc:mysql://localhost:3306/UserDB";
 	
 	MyDB() throws ClassNotFoundException{
 		Class.forName("com.mysql.jdbc.Driver");
+		try {
+			con = DriverManager.getConnection(url, "root", "root");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String addUserToDB(String name, String pwd) {
 		Statement st = null;
 		int rs;
-		String stmt = "INSERT INTO User ( name, pwd ) " + "VALUES('" + name + "','" + pwd + "')";
+		String stmt = "INSERT INTO user " + "VALUES('" + name + "', '" + pwd + "')";
 
 		try {
-			con = DriverManager.getConnection(
-                    "jdbc:default:connection");
-
 			st = con.createStatement();
 			rs = st.executeUpdate(stmt);
 			
@@ -37,12 +41,9 @@ public class MyDB {
 		Statement st = null;
 		ResultSet rs;
 		String rsPwd = "";
-		String stmt = "Select * from User where name = "+ name + ";" ;
+		String stmt = "Select * from user where name = '"+ name + "';" ;
 
 		try {
-			con = DriverManager.getConnection(
-                    "jdbc:default:connection");
-
 			st = con.createStatement();
 			rs = st.executeQuery(stmt);
 			while(rs.next())

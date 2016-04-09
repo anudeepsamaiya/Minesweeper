@@ -75,9 +75,6 @@ public class login {
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
-				
-				JOptionPane.showMessageDialog((Component) e.getSource(),
-						"You have been Registered");
 			}
 		});
 	}
